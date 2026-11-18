@@ -1,0 +1,42 @@
+<section class="cabecera">
+  <div>
+    <p class="kicker">Cada alumna pertenece a un curso</p>
+    <h2>Alumnas</h2>
+  </div>
+  <a class="btn" routerLink="/alumnas/nueva">Nueva alumna</a>
+</section>
+
+<form class="buscador" (submit)="$event.preventDefault(); buscar(caja.value)">
+  <input #caja type="search" placeholder="Buscar por nombre o posición" />
+  <button type="submit">Buscar</button>
+</form>
+
+<label class="filtro">
+  Curso
+  <select #curso (change)="filtrarCurso(curso.value)">
+    <option value="">Todos</option>
+    @for (curso of cursos; track curso.id) {
+      <option [value]="curso.id">{{ curso.nombre }}</option>
+    }
+  </select>
+</label>
+
+@if (cargando) {
+  <p class="aviso">Cargando alumnas...</p>
+} @else if (error) {
+  <p class="aviso error">{{ error }}</p>
+} @else {
+  <div class="lista">
+    @for (alumna of alumnas; track alumna.id) {
+      <a class="tarjeta" [routerLink]="['/alumnas', alumna.id]">
+        <div>
+          <h3>{{ alumna.nombre }}</h3>
+          <p>{{ alumna.posicion }} · {{ alumna.curso_nombre }}</p>
+        </div>
+        <span class="pill">{{ alumna.edad }}</span>
+      </a>
+    } @empty {
+      <p class="aviso">No hay alumnas con ese filtro.</p>
+    }
+  </div>
+}

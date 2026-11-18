@@ -1,0 +1,45 @@
+<a class="volver" routerLink="/alumnas">← Alumnas</a>
+<h2>{{ id ? 'Editar alumna' : 'Nueva alumna' }}</h2>
+
+@if (cargando) {
+  <p class="aviso">Cargando formulario...</p>
+} @else {
+  <form class="form" [formGroup]="form" (ngSubmit)="guardar()">
+    <label>
+      Nombre
+      <input type="text" formControlName="nombre" />
+      <span class="error-campo">{{ mensajes['nombre'] }}</span>
+    </label>
+
+    <label>
+      Edad
+      <input type="number" formControlName="edad" min="6" max="99" />
+      <span class="error-campo">{{ mensajes['edad'] }}</span>
+    </label>
+
+    <label>
+      Posición
+      <input type="text" formControlName="posicion" placeholder="Arquera, defensora, mediocampista..." />
+      <span class="error-campo">{{ mensajes['posicion'] }}</span>
+    </label>
+
+    <label>
+      Curso
+      <select formControlName="curso_id">
+        <option value="">Elegí un curso</option>
+        @for (curso of cursos; track curso.id) {
+          <option [value]="curso.id">{{ curso.nombre }}</option>
+        }
+      </select>
+      <span class="error-campo">{{ mensajes['curso_id'] }}</span>
+    </label>
+
+    @if (error) {
+      <p class="aviso error">{{ error }}</p>
+    }
+
+    <button type="submit" class="btn" [disabled]="guardando">
+      {{ guardando ? 'Guardando...' : 'Guardar' }}
+    </button>
+  </form>
+}

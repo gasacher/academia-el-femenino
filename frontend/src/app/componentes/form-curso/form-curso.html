@@ -1,0 +1,40 @@
+<a class="volver" routerLink="/cursos">← Cursos</a>
+<h2>{{ id ? 'Editar curso' : 'Nuevo curso' }}</h2>
+
+@if (cargando) {
+  <p class="aviso">Cargando curso...</p>
+} @else {
+  <form class="form" [formGroup]="form" (ngSubmit)="guardar()">
+    <label>
+      Nombre
+      <input type="text" formControlName="nombre" />
+      <span class="error-campo">{{ mensajes['nombre'] }}</span>
+    </label>
+
+    <label>
+      Nivel
+      <input type="text" formControlName="nivel" placeholder="Inicial, formativo, competitivo" />
+      <span class="error-campo">{{ mensajes['nivel'] }}</span>
+    </label>
+
+    <label>
+      Días y horario
+      <input type="text" formControlName="dias" placeholder="Martes y jueves 18:00" />
+      <span class="error-campo">{{ mensajes['dias'] }}</span>
+    </label>
+
+    <label>
+      Cupo
+      <input type="number" formControlName="cupo" min="1" />
+      <span class="error-campo">{{ mensajes['cupo'] }}</span>
+    </label>
+
+    @if (error) {
+      <p class="aviso error">{{ error }}</p>
+    }
+
+    <button type="submit" class="btn" [disabled]="guardando">
+      {{ guardando ? 'Guardando...' : 'Guardar' }}
+    </button>
+  </form>
+}

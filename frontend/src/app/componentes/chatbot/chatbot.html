@@ -1,0 +1,29 @@
+<section class="cabecera">
+  <div>
+    <p class="kicker">La clave de la IA está en Flask, no acá</p>
+    <h2>Chat</h2>
+  </div>
+</section>
+
+<div class="chat">
+  @for (mensaje of mensajes; track $index) {
+    <p class="burbuja" [class.mia]="mensaje.autor === 'vos'">{{ mensaje.texto }}</p>
+  }
+  @if (enviando) {
+    <p class="aviso">Pensando...</p>
+  }
+  @if (error) {
+    <p class="aviso error">{{ error }}</p>
+  }
+</div>
+
+<div class="sugerencias">
+  @for (sugerencia of sugerencias; track sugerencia) {
+    <button type="button" (click)="enviar(sugerencia)">{{ sugerencia }}</button>
+  }
+</div>
+
+<form class="buscador chat-form" (submit)="$event.preventDefault(); enviar(caja.value); caja.value = ''">
+  <input #caja type="text" placeholder="Escribí una pregunta" [disabled]="enviando" />
+  <button type="submit" [disabled]="enviando">Enviar</button>
+</form>

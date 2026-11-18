@@ -1,0 +1,32 @@
+<section class="cabecera">
+  <div>
+    <p class="kicker">1 curso, muchas alumnas</p>
+    <h2>Cursos</h2>
+  </div>
+  <a class="btn" routerLink="/cursos/nuevo">Nuevo curso</a>
+</section>
+
+<form class="buscador" (submit)="$event.preventDefault(); buscar(caja.value)">
+  <input #caja type="search" placeholder="Buscar por nombre o nivel" />
+  <button type="submit">Buscar</button>
+</form>
+
+@if (cargando) {
+  <p class="aviso">Cargando cursos...</p>
+} @else if (error) {
+  <p class="aviso error">{{ error }}</p>
+} @else {
+  <div class="lista">
+    @for (curso of cursos; track curso.id) {
+      <a class="tarjeta" [routerLink]="['/cursos', curso.id]">
+        <div>
+          <h3>{{ curso.nombre }}</h3>
+          <p>{{ curso.dias }}</p>
+        </div>
+        <span class="pill">{{ curso.nivel }}</span>
+      </a>
+    } @empty {
+      <p class="aviso">No hay cursos con esa búsqueda.</p>
+    }
+  </div>
+}

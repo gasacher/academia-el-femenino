@@ -1,0 +1,34 @@
+@if (cargando) {
+  <p class="aviso">Cargando curso...</p>
+} @else if (!curso) {
+  <p class="aviso error">{{ error }}</p>
+  <a class="btn ghost" routerLink="/cursos">Volver</a>
+} @else {
+  <a class="volver" routerLink="/cursos">← Cursos</a>
+  <h2>{{ curso.nombre }}</h2>
+  <p class="meta">{{ curso.nivel }} · {{ curso.dias }} · cupo {{ curso.cupo }}</p>
+
+  @if (error) {
+    <p class="aviso error">{{ error }}</p>
+  }
+
+  <div class="acciones">
+    <a class="btn" [routerLink]="['/cursos', curso.id, 'editar']">Editar</a>
+    <a class="btn ghost" [routerLink]="['/alumnas/nueva']" [queryParams]="{ curso: curso.id }">Nueva alumna</a>
+    <button type="button" class="btn peligro" (click)="borrar()">Borrar</button>
+  </div>
+
+  <h3>Alumnas inscriptas</h3>
+  <div class="lista">
+    @for (alumna of curso.alumnas ?? []; track alumna.id) {
+      <a class="tarjeta" [routerLink]="['/alumnas', alumna.id]">
+        <div>
+          <h3>{{ alumna.nombre }}</h3>
+          <p>{{ alumna.posicion }} · {{ alumna.edad }} años</p>
+        </div>
+      </a>
+    } @empty {
+      <p class="aviso">Este curso todavía no tiene alumnas.</p>
+    }
+  </div>
+}

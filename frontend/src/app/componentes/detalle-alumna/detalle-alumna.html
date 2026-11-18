@@ -1,0 +1,23 @@
+@if (cargando) {
+  <p class="aviso">Cargando alumna...</p>
+} @else if (!alumna) {
+  <p class="aviso error">{{ error }}</p>
+  <a class="btn ghost" routerLink="/alumnas">Volver</a>
+} @else {
+  <a class="volver" routerLink="/alumnas">← Alumnas</a>
+  <h2>{{ alumna.nombre }}</h2>
+  <p class="meta">{{ alumna.posicion }} · {{ alumna.edad }} años</p>
+  <p class="meta">
+    Curso:
+    <a [routerLink]="['/cursos', alumna.curso_id]">{{ alumna.curso_nombre }}</a>
+  </p>
+
+  @if (error) {
+    <p class="aviso error">{{ error }}</p>
+  }
+
+  <div class="acciones">
+    <a class="btn" [routerLink]="['/alumnas', alumna.id, 'editar']">Editar</a>
+    <button type="button" class="btn peligro" (click)="borrar()">Borrar</button>
+  </div>
+}
